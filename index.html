@@ -21,7 +21,14 @@
   --v-black:#000; --v-white:#fff;
   --v-blue:#007BFF; --v-orange:#FF6B00;
 }
-html,body{overflow:hidden;height:100%;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html,body{
+  overflow-x: hidden;      /* horizontale scroll verbergen  */
+  overflow-y: auto;        /* verticale scroll activeren     */
+  height: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 body{background:var(--v-black);color:var(--v-white);font-family:'Manrope',sans-serif}
 .h-wrapper{height:100vh;position:relative}
 #scroller{display:flex;flex-direction:row;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform}
