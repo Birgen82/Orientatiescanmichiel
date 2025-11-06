@@ -1136,7 +1136,6 @@ body{background:var(--v-black);color:var(--v-white);font-family:'Manrope',sans-s
 <div class="dots" id="dots"></div>
 <div class="nav-arrows">
   <button id="prev" class="nav-btn" title="Vorige">‹</button>
-  <button id="play" class="nav-btn" title="Autoplay">▶</button>
   <button id="next" class="nav-btn" title="Volgende">›</button>
 </div>
 
@@ -1183,33 +1182,30 @@ window.addEventListener("load", () => {
     }
   });
 
-  function goTo(i){
-    const st=scrollTween.scrollTrigger;
-    const y=(i/(totalPanels-1))*st.end;
-    gsap.to(window,{scrollTo:y,duration:0.8,ease:"power3.out"});
+  const btnPrev = document.getElementById("prev"),
+        btnNext = document.getElementById("next");
+
+  // Functie om naar een bepaalde slide te gaan
+  function goTo(index) {
+    const st = scrollTween.scrollTrigger;
+    const targetY = (index / (totalPanels - 1)) * st.end;
+    gsap.to(window, { scrollTo: targetY, duration: 0.8, ease: "power3.out" });
   }
 
-  const btnPrev=document.getElementById("prev"),
-        btnNext=document.getElementById("next"),
-        btnPlay=document.getElementById("play");
-  let autoplay=null,playing=false;
-
-  btnPrev.onclick=()=>{const st=scrollTween.scrollTrigger;const i=Math.round(st.progress*(totalPanels-1));goTo(Math.max(0,i-1));};
-  btnNext.onclick=()=>{const st=scrollTween.scrollTrigger;const i=Math.round(st.progress*(totalPanels-1));goTo(Math.min(totalPanels-1,i+1));};
-  btnPlay.onclick=()=>{
-    playing=!playing;btnPlay.textContent=playing?"⏸":"▶";
-    if(playing){
-      autoplay=setInterval(()=>{
-        const st=scrollTween.scrollTrigger;
-        const i=Math.round(st.progress*(totalPanels-1));
-        goTo((i+1)%totalPanels);
-      },4200);
-    }else clearInterval(autoplay);
+  // Navigatieknoppen
+  btnPrev.onclick = () => {
+    const st = scrollTween.scrollTrigger;
+    const i = Math.round(st.progress * (totalPanels - 1));
+    goTo(Math.max(0, i - 1));
+  };
+  btnNext.onclick = () => {
+    const st = scrollTween.scrollTrigger;
+    const i = Math.round(st.progress * (totalPanels - 1));
+    goTo(Math.min(totalPanels - 1, i + 1));
   };
   window.addEventListener("keydown",e=>{
     if(e.key==="ArrowRight")btnNext.click();
     if(e.key==="ArrowLeft")btnPrev.click();
-    if(e.key===" ")btnPlay.click();
   });
   window.addEventListener("resize",()=>ScrollTrigger.refresh());
 
