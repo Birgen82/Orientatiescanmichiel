@@ -31,6 +31,12 @@ html,body{
 }
 body{background:var(--v-black);color:var(--v-white);font-family:'Manrope',sans-serif}
 .h-wrapper{height:100vh;position:relative}
+/* Voeg virtuele scrollhoogte toe op basis van aantal panels */
+body::after {
+  content: "";
+  display: block;
+  height: calc(100vh * var(--panel-count, 16)); /* maakt voldoende scrollruimte */
+}
 #scroller{display:flex;flex-direction:row;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform}
 .panel{flex:0 0 100%;height:100vh;padding:clamp(20px,4vw,56px);box-sizing:border-box;position:relative;scroll-snap-align:start;display:flex;align-items:center;justify-content:center}
 .panel>*{transform:translateZ(0)}
@@ -1161,6 +1167,9 @@ window.addEventListener("load", () => {
         progressBar = document.getElementById("progress"),
         dots = document.getElementById("dots"),
         totalPanels = panels.length;
+
+  // Zet CSS-variabele zodat body::after correcte hoogte krijgt
+  document.documentElement.style.setProperty('--panel-count', totalPanels);
 
   dots.innerHTML="";
   panels.forEach((_,i)=>{
